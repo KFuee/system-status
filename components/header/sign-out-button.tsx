@@ -5,7 +5,7 @@ import { DropdownMenuItem } from "../ui/dropdown-menu";
 
 export default function SignOutButton() {
   return (
-    <DropdownMenuItem onSelect={() => signOut()}>
+    <DropdownMenuItem onSelect={() => signOut()} className="cursor-pointer">
       Cerrar sesión
     </DropdownMenuItem>
   );
