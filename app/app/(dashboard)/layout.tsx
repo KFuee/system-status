@@ -1,5 +1,5 @@
 import { MainNav } from "@/components/header/main-nav";
-import { UserNav } from "@/components/header/user-nav";
+import UserNav from "@/components/header/user-nav";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
