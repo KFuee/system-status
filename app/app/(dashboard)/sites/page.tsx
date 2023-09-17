@@ -1,3 +1,4 @@
+import SiteCard from "@/components/sites/site-card";
 import { Button } from "@/components/ui/button";
 
 export default function AllSites() {
@@ -20,11 +21,14 @@ export default function AllSites() {
                 d="M12 2C6.486 2 2 6.486 2 12C2 17.514 6.486 22 12 22C17.514 22 22 17.514 22 12C22 6.486 17.514 2 12 2ZM11 7V11H7V13H11V17H13V13H17V11H13V7H11Z"
               />
             </svg>
+
             <span className="text-sm font-medium">Nuevo sitio</span>
           </Button>
         </div>
 
-        <span>Sitios aquí...</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SiteCard />
+        </div>
       </div>
     </div>
   );
