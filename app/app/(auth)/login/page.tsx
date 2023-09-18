@@ -10,7 +10,7 @@ import { Suspense } from "react";
 
 export default function LoginPage() {
   return (
-    <Card className="max-w-md">
+    <Card className="rounded-none sm:rounded-lg w-full sm:max-w-md">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">System status</CardTitle>
         <CardDescription>

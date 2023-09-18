@@ -21,8 +21,8 @@ export default async function SiteHomePage({
   }
 
   return (
-    <div className="flex flex-1 flex-col items-start w-full space-y-6">
-      <div className="flex flex-row items-center">
+    <div className="flex flex-1 flex-col items-center w-full space-y-6 sm:p-6">
+      <div className="flex flex-row items-center px-6 pt-6 sm:px-0 sm:pt-0 text-start w-full sm:max-w-2xl">
         <Avatar className="mr-4 h-6 w-6">
           <AvatarImage
             src={`https://avatar.vercel.sh/${data.name}.png`}
@@ -33,7 +33,7 @@ export default async function SiteHomePage({
         <h1 className="text-2xl font-bold text-gray-800">{data.name}</h1>
       </div>
 
-      <Card className="w-full">
+      <Card className="rounded-none sm:rounded-lg w-full sm:max-w-2xl">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Servicios</CardTitle>
           <CardDescription>

@@ -19,7 +19,7 @@ export default function SiteCard({ site }: { site: Site }) {
   return (
     <Card className="flex flex-col">
       <CardTitle className="group relative items-center justify-between h-52 overflow-hidden rounded-t-lg mb-4">
-        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
 
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 space-x-2">
           <Button variant="destructive">Eliminar</Button>
@@ -34,7 +34,7 @@ export default function SiteCard({ site }: { site: Site }) {
           width={0}
           height={0}
           sizes="100vh"
-          className="absolute inset-0 w-full h-full object-cover transform group-hover:blur-md transition-transform duration-300"
+          className="absolute inset-0 w-full h-full object-cover transform group-hover:blur-md transition-transform duration-500"
         />
       </CardTitle>
 
