@@ -2,11 +2,13 @@
 
 import LoadingDots from "@/components/icons/loading-dots";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function LoginButton() {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
   // Get error message added by next/auth in URL.
@@ -14,9 +16,13 @@ export default function LoginButton() {
   const error = searchParams?.get("error");
 
   useEffect(() => {
-    // const errorMessage = Array.isArray(error) ? error.pop() : error;
-    // errorMessage && toast.error(errorMessage);
-  }, [error]);
+    const errorMessage = Array.isArray(error) ? error.pop() : error;
+    errorMessage &&
+      toast({
+        variant: "destructive",
+        description: errorMessage,
+      });
+  }, [error, toast]);
 
   return (
     <Button

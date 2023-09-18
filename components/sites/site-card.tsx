@@ -6,6 +6,8 @@ import { Card, CardContent, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import { Site } from "@prisma/client";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function SiteCard({ site }: { site: Site }) {
   const [operative, setOperative] = useState(true);
@@ -16,25 +18,41 @@ export default function SiteCard({ site }: { site: Site }) {
 
   return (
     <Card className="flex flex-col">
-      <CardTitle className="flex items-center justify-between max-h-52 overflow-hidden rounded-t-lg mb-4">
+      <CardTitle className="group relative items-center justify-between h-52 overflow-hidden rounded-t-lg mb-4">
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 space-x-2">
+          <Button variant="destructive">Eliminar</Button>
+          <Button variant="default">
+            <Link href={`/site/${site.id}`}>Configurar</Link>
+          </Button>
+        </div>
+
         <Image
-          src="https://images.unsplash.com/photo-1694830470387-2e0f234ecaf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80"
+          src="https://images.unsplash.com/photo-1694830470387-2e0f234ecaf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWgelHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80"
           alt="Logo"
           width={0}
           height={0}
           sizes="100vh"
-          className="w-full h-auto"
+          className="absolute inset-0 w-full h-full object-cover transform group-hover:blur-md transition-transform duration-300"
         />
       </CardTitle>
+
       <CardContent className="flex flex-col">
         <div className="flex items-end justify-between space-x-6">
           <div className="flex flex-col space-y-2">
             <h2 className="text-md font-bold">Dirección del sitio</h2>
-            <Badge variant="secondary">
+            <Badge variant="outline">
               <a
                 href={
                   site.subdomain
-                    ? `https://${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+                    ? `${
+                        process.env.NEXT_PUBLIC_ROOT_DOMAIN === "localhost:3000"
+                          ? "http"
+                          : "https"
+                      }://${site.subdomain}.${
+                        process.env.NEXT_PUBLIC_ROOT_DOMAIN
+                      }`
                     : "#"
                 }
                 target="_blank"
@@ -52,7 +70,7 @@ export default function SiteCard({ site }: { site: Site }) {
           </div>
 
           <Badge
-            variant={operative ? "default" : "destructive"}
+            variant={operative ? "secondary" : "destructive"}
             onClick={toggleOperative}
             className="cursor-pointer line-clamp-1 truncate flex items-center justify-center"
           >
