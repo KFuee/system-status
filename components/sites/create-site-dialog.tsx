@@ -44,6 +44,14 @@ export default function CreateSiteDialog() {
 
   const [show, setShow] = useState(false);
 
+  function onOpenChange(open: boolean) {
+    setShow(open);
+
+    if (open) return;
+
+    form.reset();
+  }
+
   function onSubmit(data: z.infer<typeof formSchema>) {
     console.log(data);
   }
@@ -67,7 +75,7 @@ export default function CreateSiteDialog() {
   }, [form]);
 
   return (
-    <Dialog open={show} onOpenChange={setShow}>
+    <Dialog open={show} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
           variant="default"
