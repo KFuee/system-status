@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import {
@@ -25,14 +25,23 @@ import {
 import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "../ui/textarea";
+import { createSite } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
+import LoadingDots from "../icons/loading-dots";
 
-const formSchema = z.object({
+export const formSchema = z.object({
   name: z.string().nonempty("El nombre del sitio es requerido"),
-  subdomain: z.string().url("La URL del sitio es requerida"),
+  subdomain: z.string().nonempty("La URL del sitio es requerida"),
   description: z.string().nonempty("La descripción del sitio es requerida"),
 });
 
 export default function CreateSiteDialog() {
+  const router = useRouter();
+  const [show, setShow] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,8 +50,6 @@ export default function CreateSiteDialog() {
       description: "",
     },
   });
-
-  const [show, setShow] = useState(false);
 
   function onOpenChange(open: boolean) {
     setShow(open);
@@ -53,7 +60,27 @@ export default function CreateSiteDialog() {
   }
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    startTransition(async () => {
+      const res: any = await createSite(data);
+
+      if (res.error) {
+        setShow(false);
+        toast({
+          variant: "destructive",
+          description: res.error,
+        });
+
+        return;
+      }
+
+      router.refresh();
+      router.push(`/sites/${res.id}`);
+      setShow(false);
+      toast({
+        variant: "default",
+        description: "El sitio se ha creado correctamente",
+      });
+    });
   }
 
   useEffect(() => {
@@ -97,7 +124,7 @@ export default function CreateSiteDialog() {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-4">
               <FormField
                 control={form.control}
@@ -120,7 +147,13 @@ export default function CreateSiteDialog() {
                   <FormItem>
                     <FormLabel>URL del sitio</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <div className="relative flex items-center">
+                        <Input {...field} disabled />
+
+                        <span className="absolute inset-y-0 right-0 p-3 flex items-center pointer-events-none rounded-r-md border z-10 bg-gray-50 text-gray-500">
+                          .{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+                        </span>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -146,7 +179,9 @@ export default function CreateSiteDialog() {
               <Button variant="outline" onClick={() => setShow(false)}>
                 Cancelar
               </Button>
-              <Button type="submit">Crear</Button>
+              <Button type="submit" disabled={isPending}>
+                {isPending ? <LoadingDots color="#A8A29E" /> : "Crear"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
