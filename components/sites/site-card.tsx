@@ -1,7 +1,18 @@
+"use client";
+
+import { useState } from "react";
+import { Badge } from "../ui/badge";
 import { Card, CardContent, CardTitle } from "../ui/card";
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
 export default function SiteCard() {
+  const [operative, setOperative] = useState(true);
+
+  const toggleOperative = () => {
+    setOperative(!operative);
+  };
+
   return (
     <Card className="flex flex-col">
       <CardTitle className="flex items-center justify-between max-h-52 overflow-hidden rounded-t-lg mb-4">
@@ -15,17 +26,29 @@ export default function SiteCard() {
         />
       </CardTitle>
       <CardContent className="flex flex-col">
-        <div className="flex items-center justify-between space-x-6">
-          <a
-            href="https://nextjs-dashboard-starter.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium transition-colors hover:underline truncate"
-          >
-            https://test.com
-          </a>
+        <div className="flex items-end justify-between space-x-6">
+          <div className="flex flex-col space-y-2">
+            <h2 className="text-md font-bold">Dirección del sitio</h2>
+            <Badge variant="secondary">
+              <a
+                href="https://test.com"
+                target="_blank"
+                className="flex flex-1 items-center justify-between space-x-2"
+              >
+                <span>https://test.com</span>
 
-          <span className="text-sm text-gray-500">Operativo</span>
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Badge>
+          </div>
+
+          <Badge
+            variant={operative ? "default" : "destructive"}
+            onClick={toggleOperative}
+            className="cursor-pointer line-clamp-1 truncate flex items-center justify-center"
+          >
+            {operative ? "Operativo" : "No operativo"}
+          </Badge>
         </div>
       </CardContent>
     </Card>
