@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AllSites() {
   return (
-    <div className="flex max-w-screen-xl flex-col">
+    <div className="flex flex-col">
       <div className="flex flex-col space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Todos los sitios</h1>
