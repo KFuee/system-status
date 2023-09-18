@@ -5,8 +5,9 @@ import { Badge } from "../ui/badge";
 import { Card, CardContent, CardTitle } from "../ui/card";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
+import { Site } from "@prisma/client";
 
-export default function SiteCard() {
+export default function SiteCard({ site }: { site: Site }) {
   const [operative, setOperative] = useState(true);
 
   const toggleOperative = () => {
@@ -31,11 +32,19 @@ export default function SiteCard() {
             <h2 className="text-md font-bold">Dirección del sitio</h2>
             <Badge variant="secondary">
               <a
-                href="https://test.com"
+                href={
+                  site.subdomain
+                    ? `https://${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+                    : "#"
+                }
                 target="_blank"
                 className="flex flex-1 items-center justify-between space-x-2"
               >
-                <span>https://test.com</span>
+                <span>
+                  {site.subdomain
+                    ? `${site.subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+                    : "Sin asignar"}
+                </span>
 
                 <ExternalLink className="h-4 w-4" />
               </a>

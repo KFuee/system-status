@@ -1,7 +1,9 @@
+import PlacholderCard from "@/components/placeholder-card";
 import CreateSiteDialog from "@/components/sites/create-site-dialog";
-import SiteCard from "@/components/sites/site-card";
+import Sites from "@/components/sites/sites";
+import { Suspense } from "react";
 
-export default function AllSites() {
+export default async function AllSites() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col space-y-6">
@@ -11,9 +13,17 @@ export default function AllSites() {
           <CreateSiteDialog />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <SiteCard />
-        </div>
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <PlacholderCard key={i} />
+              ))}
+            </div>
+          }
+        >
+          <Sites />
+        </Suspense>
       </div>
     </div>
   );
