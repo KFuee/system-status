@@ -1,5 +1,6 @@
 import { MainNav } from "@/components/header/main-nav";
 import UserNav from "@/components/header/user-nav";
+import { UiModeToggle } from "@/components/ui-mode-toggle";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex h-16 items-center px-4">
             <MainNav />
             <div className="ml-auto flex items-center space-x-4">
+              <UiModeToggle />
               <UserNav />
             </div>
           </div>
