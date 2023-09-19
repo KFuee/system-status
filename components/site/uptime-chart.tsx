@@ -78,7 +78,7 @@ export default function UptimeChart({ title }: { title: string }) {
   }, [randomizeData]);
 
   return (
-    <Card className="w-full">
+    <Card className="rounded-none sm:rounded-lg w-full sm:max-w-2xl">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">{title}</CardTitle>
         <CardDescription>Última actualización &bull; 1 minuto</CardDescription>

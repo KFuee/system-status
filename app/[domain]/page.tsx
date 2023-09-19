@@ -53,8 +53,8 @@ export default async function SiteHomePage({
 
   return (
     <div className="flex flex-1 flex-col items-center w-full space-y-6 sm:p-6">
-      <div className="flex flex-row justify-between w-full sm:max-w-2xl">
-        <div className="flex flex-row items-center px-6 pt-6 sm:px-0 sm:pt-0 text-start">
+      <div className="flex flex-row justify-between w-full sm:max-w-2xl px-6 pt-6 sm:px-0 sm:pt-0">
+        <div className="flex flex-row items-center justify-center">
           <Avatar className="mr-4 h-6 w-6">
             <AvatarImage
               src={`https://avatar.vercel.sh/${data.name}.png`}
@@ -80,7 +80,7 @@ export default async function SiteHomePage({
         </CardContent>
       </Card>
 
-      <div className="w-full sm:max-w-2xl space-y-4">
+      <div className="space-y-4 w-full flex flex-col items-center justify-center">
         <UptimeChart title="API" />
         <UptimeChart title="Web" />
       </div>
