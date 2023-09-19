@@ -74,3 +74,30 @@ export function getSession() {
     };
   } | null>;
 }
+
+export function withSiteAuth(action: any) {
+  return async (
+    formData: FormData | null,
+    siteId: string,
+    key: string | null
+  ) => {
+    const session = await getSession();
+    if (!session) {
+      return {
+        error: "Necesitas iniciar sesión para realizar esta acción",
+      };
+    }
+    const site = await prisma.site.findUnique({
+      where: {
+        id: siteId,
+      },
+    });
+    if (!site || site.userId !== session.user.id) {
+      return {
+        error: "No tienes permisos para realizar esta acción",
+      };
+    }
+
+    return action(formData, site, key);
+  };
+}

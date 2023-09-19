@@ -8,6 +8,7 @@ import { ExternalLink } from "lucide-react";
 import { Site } from "@prisma/client";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import DeleteSiteDialog from "./delete-site-dialog";
 
 export default function SiteCard({ site }: { site: Site }) {
   const [operative, setOperative] = useState(true);
@@ -22,8 +23,8 @@ export default function SiteCard({ site }: { site: Site }) {
         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
 
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 space-x-2">
-          <Button variant="destructive">Eliminar</Button>
-          <Button variant="default">
+          <DeleteSiteDialog id={site.id} />
+          <Button variant="secondary">
             <Link href={`/site/${site.id}`}>Configurar</Link>
           </Button>
         </div>
