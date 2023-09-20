@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Login | System status",
+  description: "Inicio de sesión System status.",
 };
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
