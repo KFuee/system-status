@@ -22,12 +22,18 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Site } from "@prisma/client";
+import { useTransition } from "react";
+import { updateSite } from "@/lib/actions";
+import { useToast } from "../ui/use-toast";
+import LoadingDots from "../icons/loading-dots";
 
 export const formSchema = z.object({
-  customDomain: z.string().nonempty("La URL del sitio es requerida"),
+  customDomain: z.string(),
 });
 
 export default function CustomDomainForm({ site }: { site: Site }) {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,8 +41,21 @@ export default function CustomDomainForm({ site }: { site: Site }) {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append("customDomain", data.customDomain);
+      const res = await updateSite(formData, site.id, "customDomain");
+      console.log("res", res);
+
+      toast({
+        variant: res.error ? "destructive" : "default",
+        description:
+          res.error ?? "Dominio personalizado actualizado correctamente",
+      });
+    });
   }
 
   return (
@@ -69,7 +88,9 @@ export default function CustomDomainForm({ site }: { site: Site }) {
 
         <CardFooter>
           <div className="flex justify-end flex-1">
-            <Button variant="default">Guardar</Button>
+            <Button disabled={isPending} variant="default">
+              {isPending ? <LoadingDots color="#fff" /> : "Guardar"}
+            </Button>
           </div>
         </CardFooter>
       </form>

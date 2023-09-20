@@ -4,7 +4,7 @@ export const validDomainRegex = new RegExp(
 
 export const addDomainToVercel = async (domain: string) => {
   return await fetch(
-    `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
+    `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains`,
     {
       body: `{\n  "name": "${domain}"\n}`,
       headers: {
@@ -13,17 +13,27 @@ export const addDomainToVercel = async (domain: string) => {
       },
       method: "POST",
     }
-  ).then((res) => res.json());
+  ).then(async (res) => {
+    const json = await res.json();
+    if (!json.error) return json;
+
+    throw new Error(json.error.message);
+  });
 };
 
 export const removeDomainFromVercelProject = async (domain: string) => {
   return await fetch(
-    `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
+    `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
       },
       method: "DELETE",
     }
-  ).then((res) => res.json());
+  ).then(async (res) => {
+    const json = await res.json();
+    if (!json.error) return json;
+
+    throw new Error(json.error.message);
+  });
 };
