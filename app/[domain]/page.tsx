@@ -19,7 +19,7 @@ export default async function SiteHomePage({
   const data = await getSiteData(domain);
 
   if (!data) {
-    return <div>Sitio no encontrado</div>;
+    return <div className="p-6">Sitio no encontrado</div>;
   }
 
   return (

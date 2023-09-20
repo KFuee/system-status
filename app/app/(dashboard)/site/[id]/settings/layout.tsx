@@ -27,6 +27,10 @@ export default function SiteSettingsLayout({
         href: `/site/${params.id}/settings`,
       },
       {
+        title: "Dominios",
+        href: `/site/${params.id}/settings/domains`,
+      },
+      {
         title: "Avanzado",
         href: `/site/${params.id}/settings/advanced`,
       },

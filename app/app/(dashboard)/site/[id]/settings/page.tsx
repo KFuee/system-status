@@ -1,3 +1,3 @@
 export default function SiteServiceSettings() {
-  return <span>Hola</span>;
+  return <span>Contenido aquí</span>;
 }
