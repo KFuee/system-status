@@ -21,21 +21,39 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { updateSite } from "@/lib/actions";
+import { useToast } from "../ui/use-toast";
+import { Site } from "@prisma/client";
+import LoadingDots from "../icons/loading-dots";
 
 export const formSchema = z.object({
   subdomain: z.string().nonempty("La URL del sitio es requerida"),
 });
 
-export default function SubdomainForm() {
+export default function SubdomainForm({ site }: { site: Site }) {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      subdomain: "",
+      subdomain: site.subdomain!,
     },
   });
 
+  const [isPending, startTransition] = useTransition();
+
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append("subdomain", data.subdomain);
+      const res = await updateSite(formData, site.id, "subdomain");
+
+      toast({
+        variant: res.error ? "destructive" : "default",
+        description: res.error ?? "Subdominio actualizado correctamente",
+      });
+    });
   }
 
   return (
@@ -74,7 +92,9 @@ export default function SubdomainForm() {
 
         <CardFooter>
           <div className="flex justify-end flex-1">
-            <Button variant="default">Guardar</Button>
+            <Button disabled={isPending} variant="default">
+              {isPending ? <LoadingDots color="#fff" /> : "Guardar"}
+            </Button>
           </div>
         </CardFooter>
       </form>

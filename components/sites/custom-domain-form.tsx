@@ -21,16 +21,17 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Site } from "@prisma/client";
 
 export const formSchema = z.object({
-  domain: z.string().nonempty("La URL del sitio es requerida"),
+  customDomain: z.string().nonempty("La URL del sitio es requerida"),
 });
 
-export default function CustomDomainForm() {
+export default function CustomDomainForm({ site }: { site: Site }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      domain: "",
+      customDomain: site.customDomain ?? "",
     },
   });
 
@@ -52,7 +53,7 @@ export default function CustomDomainForm() {
           <Form {...form}>
             <FormField
               control={form.control}
-              name="domain"
+              name="customDomain"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>URL del sitio</FormLabel>

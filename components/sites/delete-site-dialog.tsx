@@ -22,7 +22,7 @@ export default function DeleteSiteDialog({ id }: { id: string }) {
 
   function onSubmit() {
     startTransition(async () => {
-      const res: any = await deleteSite({} as FormData, id, "delete");
+      const res: any = await deleteSite(new FormData(), id, "delete");
 
       if (res.error) {
         setShow(false);
@@ -70,7 +70,7 @@ export default function DeleteSiteDialog({ id }: { id: string }) {
           </Button>
           <Button
             disabled={isPending}
-            variant={"destructive"}
+            variant="destructive"
             onClick={() => onSubmit()}
           >
             {isPending ? <LoadingDots color="#fff" /> : "Eliminar"}
