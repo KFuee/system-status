@@ -1,12 +1,13 @@
 import CustomDomainForm from "@/components/sites/custom-domain-form";
 import SubdomainForm from "@/components/sites/subdomain-form";
+import prisma from "@/lib/prisma";
 
 export default async function SiteDomainSettingsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const data = await prisma?.site.findUnique({
+  const data = await prisma.site.findUnique({
     where: {
       id: params.id,
     },
