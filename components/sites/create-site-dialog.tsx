@@ -74,7 +74,7 @@ export default function CreateSiteDialog() {
       }
 
       router.refresh();
-      router.push(`/site/${res.id}`);
+      router.push(`/site/${res.id}/settings`);
       setShow(false);
       toast({
         variant: "default",
