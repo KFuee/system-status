@@ -78,7 +78,7 @@ export default function SubdomainForm({ site }: { site: Site }) {
                     <div className="relative flex items-center">
                       <Input {...field} />
 
-                      <span className="absolute inset-y-0 right-0 p-3 flex items-center pointer-events-none rounded-r-md border z-10 bg-gray-50 text-gray-500">
+                      <span className="absolute inset-y-0 right-0 p-3 flex items-center pointer-events-none rounded-r-md border z-10">
                         .{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
                       </span>
                     </div>

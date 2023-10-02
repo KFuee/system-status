@@ -100,7 +100,7 @@ export const updateSite = withSiteAuth(
               customDomain: value,
             },
           });
-          await addDomainToVercel(value);
+          await Promise.all([addDomainToVercel(value)]);
 
           // empty value means the user wants to remove the custom domain
         } else if (value === "") {
@@ -112,6 +112,10 @@ export const updateSite = withSiteAuth(
               customDomain: null,
             },
           });
+        } else {
+          return {
+            error: "El dominio no es válido",
+          };
         }
 
         // if the site had a different customDomain before, we need to remove it from Vercel

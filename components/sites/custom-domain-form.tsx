@@ -26,6 +26,7 @@ import { useTransition } from "react";
 import { updateSite } from "@/lib/actions";
 import { useToast } from "../ui/use-toast";
 import LoadingDots from "../icons/loading-dots";
+import DomainConfiguration from "./domain-configuration";
 
 export const formSchema = z.object({
   customDomain: z.string(),
@@ -48,10 +49,9 @@ export default function CustomDomainForm({ site }: { site: Site }) {
       const formData = new FormData();
       formData.append("customDomain", data.customDomain);
       const res = await updateSite(formData, site.id, "customDomain");
-      console.log("res", res);
 
       toast({
-        variant: res.error ? "destructive" : "default",
+        variant: res?.error ? "destructive" : "default",
         description:
           res.error ?? "Dominio personalizado actualizado correctamente",
       });
@@ -69,21 +69,27 @@ export default function CustomDomainForm({ site }: { site: Site }) {
 
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardContent>
-          <Form {...form}>
-            <FormField
-              control={form.control}
-              name="customDomain"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL del sitio</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </Form>
+          <div className="space-y-4">
+            <Form {...form}>
+              <FormField
+                control={form.control}
+                name="customDomain"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL del sitio</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </Form>
+
+            {site.customDomain && (
+              <DomainConfiguration domain={site.customDomain} />
+            )}
+          </div>
         </CardContent>
 
         <CardFooter>
